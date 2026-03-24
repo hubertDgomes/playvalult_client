@@ -1,7 +1,7 @@
 import React from "react";
 
 const Container = ({ className, children }) => {
-  return <div className={`max-w-[1320px] m-auto ${className}`}>{children}</div>;
+  return <div className={`max-w-[1320px] mx-auto px-4 xl:px-0 ${className}`}>{children}</div>;
 };
 
 export default Container;
