@@ -2,6 +2,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import RootLayout from './components/layouts/RootLayout'
 import Home from './components/pages/Home'
+import Store from './components/pages/Store'
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
     <Routes>
       <Route path='/' element={<RootLayout/>}>
         <Route path='/' element={<Home/>}/>
+        <Route path='/store' element={<Store/>}/>
       </Route>
     </Routes>
     </>

@@ -17,8 +17,8 @@ const Navbar = () => {
               <Images src={logo} className="w-8 md:w-auto" />
             </div>
             <div className="hidden lg:flex gap-x-13 font-bold text-[16px] text-white">
-              <Link>Home</Link>
-              <Link>Store</Link>
+              <Link to={"/"}>Home</Link>
+              <Link to={"/store"}>Store</Link>
               <Link>Library</Link>
               <Link>Wishlist</Link>
             </div>
@@ -68,12 +68,14 @@ const Navbar = () => {
       >
         <div className="flex flex-col gap-y-8 font-bold text-2xl text-white text-center w-full px-6">
           <Link
+          to={"/"}
             className="hover:text-[#19e5f0] transition-colors"
             onClick={() => setMenuOpen(false)}
           >
             Home
           </Link>
           <Link
+            to={"/store"}
             className="hover:text-[#19e5f0] transition-colors"
             onClick={() => setMenuOpen(false)}
           >
