@@ -27,7 +27,7 @@ const Store = () => {
     return (
       <>
         <div className="relative">
-          <Images src={bgImage} className={"brightness-80 lg:w-full  mt-60 lg:mt-0"} />
+          <Images src={bgImage} className={"brightness-80 w-[5000px] lg:w-full  mt-60 lg:mt-0"} />
           <div className="p-3 md:p-[50px] absolute bottom-[20px] left-2 bg-white/10 backdrop-blur-md">
             <p className="font-semibold text-[15px] text-[#00F2FF]">
               Now Released
