@@ -4,9 +4,31 @@ import Images from "../Images";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 import { PiShoppingCartThin } from "react-icons/pi";
+import axios from "axios";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const storedUser = localStorage.getItem("pv-user");
+  const user = storedUser ? JSON.parse(storedUser) : null;
+
+  const handleLogout = async () => {
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_API_LINK}/api/logout`, {}, {
+        withCredentials: true,
+      });
+      localStorage.removeItem("pv-user");
+      alert(res.data?.message ?? "Logout successful!");
+      window.location.href = "/";
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message ?? "Logout failed");
+      } else if (err.request) {
+        alert("Network error. No response from server.");
+      } else {
+        alert("Internal Server Error");
+      }
+    }
+  };
 
   return (
     <>
@@ -19,17 +41,39 @@ const Navbar = () => {
             <div className="hidden lg:flex gap-x-13 font-bold text-[16px] text-white">
               <Link to={"/"}>Home</Link>
               <Link to={"/store"}>Store</Link>
-              <Link>Library</Link>
-              <Link>Wishlist</Link>
+              <Link to={"/library"}>Library</Link>
+              <Link to={"/wishlist"}>Wishlist</Link>
             </div>
             <div className="flex gap-x-4 md:gap-x-8 items-center justify-between">
-              <PiShoppingCartThin className="text-[28px] md:text-[30px] cursor-pointer text-white" />
-              <button className="hidden sm:block bg-[#19e5f0] border-[#19e5f0] border px-4 md:px-6 py-2 md:py-3 text-black rounded-[8px] cursor-pointer font-extrabold text-sm md:text-base">
-                Sign Up
-              </button>
-              <button className="hidden sm:block bg-[#0a0a0a] border-white border px-4 md:px-6 py-2 md:py-3 text-white rounded-[8px] cursor-pointer font-extrabold text-sm md:text-base">
-                Log Up
-              </button>
+              {user ? (
+                <>
+                  <Link to={"/cart"}>
+                    <PiShoppingCartThin className="text-[28px] md:text-[30px] cursor-pointer text-white" />
+                  </Link>
+                  <span className="hidden sm:block text-white font-bold text-sm md:text-base">
+                    {user.fullName}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="hidden sm:block bg-[#0a0a0a] border-white border px-4 md:px-6 py-2 md:py-3 text-white rounded-[8px] cursor-pointer font-extrabold text-sm md:text-base"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link to={"/signup"}>
+                    <button className="hidden sm:block bg-[#19e5f0] border-[#19e5f0] border px-4 md:px-6 py-2 md:py-3 text-black rounded-[8px] cursor-pointer font-extrabold text-sm md:text-base">
+                      Sign Up
+                    </button>
+                  </Link>
+                  <Link to={"/login"}>
+                    <button className="hidden sm:block bg-[#0a0a0a] border-white border px-4 md:px-6 py-2 md:py-3 text-white rounded-[8px] cursor-pointer font-extrabold text-sm md:text-base">
+                      Log In
+                    </button>
+                  </Link>
+                </>
+              )}
               <button
                 className="lg:hidden text-white ml-2 cursor-pointer transition-transform duration-200 hover:scale-110 relative z-[60]"
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -68,7 +112,7 @@ const Navbar = () => {
       >
         <div className="flex flex-col gap-y-8 font-bold text-2xl text-white text-center w-full px-6">
           <Link
-          to={"/"}
+            to={"/"}
             className="hover:text-[#19e5f0] transition-colors"
             onClick={() => setMenuOpen(false)}
           >
@@ -82,24 +126,60 @@ const Navbar = () => {
             Store
           </Link>
           <Link
+            to={"/library"}
             className="hover:text-[#19e5f0] transition-colors"
             onClick={() => setMenuOpen(false)}
           >
             Library
           </Link>
           <Link
+            to={"/wishlist"}
             className="hover:text-[#19e5f0] transition-colors"
             onClick={() => setMenuOpen(false)}
           >
             Wishlist
           </Link>
           <div className="flex flex-col gap-y-4 mt-8 sm:hidden w-full">
-            <button className="bg-[#19e5f0] border-[#19e5f0] border w-full py-3 text-black rounded-[8px] cursor-pointer font-extrabold text-lg transition-transform hover:scale-105">
-              Sign Up
-            </button>
-            <button className="bg-transparent border-white border w-full py-3 text-white rounded-[8px] cursor-pointer font-extrabold text-lg transition-transform hover:scale-105">
-              Log Up
-            </button>
+            {user ? (
+              <>
+                <Link to={"/cart"} onClick={() => setMenuOpen(false)}>
+                  <button className="bg-[#19e5f0] border-[#19e5f0] border w-full py-3 text-black rounded-[8px] cursor-pointer font-extrabold text-lg transition-transform hover:scale-105">
+                    Cart
+                  </button>
+                </Link>
+                <div className="text-white font-bold text-center">
+                  {user.fullName}
+                </div>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMenuOpen(false);
+                  }}
+                  className="bg-transparent border-white border w-full py-3 text-white rounded-[8px] cursor-pointer font-extrabold text-lg transition-transform hover:scale-105"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to={"/signup"}>
+                  <button
+                    onClick={() => setMenuOpen(false)}
+                    className="bg-[#19e5f0] border-[#19e5f0] border w-full py-3 text-black rounded-[8px] cursor-pointer font-extrabold text-lg transition-transform hover:scale-105"
+                  >
+                    Sign Up
+                  </button>
+                </Link>
+                <Link to={"/login"}>
+                  <button
+                    onClick={() => setMenuOpen(false)}
+                    className="bg-transparent border-white border w-full py-3 text-white rounded-[8px] cursor-pointer font-extrabold text-lg transition-transform hover:scale-105"
+                  >
+                    Log In
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

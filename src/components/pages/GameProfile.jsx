@@ -16,7 +16,23 @@ const GameProfile = () => {
       .then((res) => setGame(res.data));
   }, []);
 
-  console.log(game);
+  // console.log(game);
+
+  const handleCart = async () =>{
+    try{
+     const res = await axios.post(`${import.meta.env.VITE_API_LINK}/api/addgames/${id}`, {}, {withCredentials: true})
+      alert("Game added to cart successfully!");
+    }
+    catch (err) {
+      if (err.response) {
+        alert(err.response.data.message ?? "Something went wrong!");
+      } else if (err.request) {
+        alert("Network error. No response from server.");
+      } else {
+        alert("Internal Server Error");
+      }
+    }
+  }
 
   if (!game) {
     return (
@@ -47,6 +63,7 @@ const GameProfile = () => {
             </p>
             <div className="flex flex-wrap gap-4 mt-6">
               <MainButton
+              onClick={handleCart}
                 text={`Buy Now — $${game.price}`}
                 className="shadow-lg transform active:scale-95 transition-transform"
               />
