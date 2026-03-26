@@ -12,7 +12,7 @@ const GameProfile = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_LINK}/api/getgamebyid/${id}`)
+      .get(`${import.meta.env.VITE_API_LINK}/api/getgamebyid/${id}`,{withCredentials : true})
       .then((res) => setGame(res.data));
   }, []);
 

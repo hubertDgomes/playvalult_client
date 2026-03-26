@@ -17,7 +17,7 @@ const Store = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_LINK}/api/getallnewgames`)
+      .get(`${import.meta.env.VITE_API_LINK}/api/getallnewgames`, {withCredentials : true})
       .then((res) => setNewGames(res.data));
   }, []);
 
@@ -25,7 +25,7 @@ const Store = () => {
 
   useEffect(() => {
     axios
-    .get(`${import.meta.env.VITE_API_LINK}/api/getallgames`)
+    .get(`${import.meta.env.VITE_API_LINK}/api/getallgames`, {withCredentials : true})
       .then((res) => setAllGames(res.data));
   }, []);
 
@@ -35,7 +35,7 @@ const Store = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_LINK}/api/getcategorybyname/Adventure`)
+      .get(`${import.meta.env.VITE_API_LINK}/api/getcategorybyname/Adventure`, {withCredentials : true})
       .then((res) => setAdventure(res.data[0].games));
   }, []);
 
@@ -45,7 +45,7 @@ const Store = () => {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_LINK}/api/getcategorybyname/RPG`)
+      .get(`${import.meta.env.VITE_API_LINK}/api/getcategorybyname/RPG` , {withCredentials : true})
       .then((res) => setRpg(res.data[0].games));
   }, []);
 
