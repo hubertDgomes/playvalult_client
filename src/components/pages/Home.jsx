@@ -8,6 +8,7 @@ import logo1 from "../../assets/fet1.png";
 import logo2 from "../../assets/fet2.png";
 import logo3 from "../../assets/fet3.png";
 import dash from "../../assets/dashboard.png";
+import { useNavigate } from "react-router-dom";
 const TextPart = ({ number, text }) => {
   return (
     <>
@@ -36,6 +37,7 @@ const Feature = ({ head, text, link, logo }) => {
 };
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div
@@ -58,7 +60,7 @@ const Home = () => {
             </p>
 
             <div className="mb-20 flex justify-center transform hover:scale-105 transition-transform duration-300">
-              <MainButton text={"START YOUR JOURNEY"} className="text-lg px-10 py-4 shadow-[0_0_30px_rgba(25,229,240,0.3)]" />
+              <MainButton onClick={()=> navigate("/signup")} text={"START YOUR JOURNEY"} className="text-lg px-10 py-4 shadow-[0_0_30px_rgba(25,229,240,0.3)]" />
             </div>
 
             <div className="grid grid-cols-2 lg:flex justify-around gap-8 lg:gap-y-0 mt-10 max-w-5xl mx-auto border-t border-white/10 pt-12">
@@ -152,7 +154,9 @@ const Home = () => {
                   "The horizon is waiting. Are you ready to transcend the ordinary?"
                 </p>
                 <div className="flex justify-center transform hover:scale-105 transition-transform">
-                  <MainButton text={"CREATE ACCOUNT"} className="px-12 py-5 text-xl font-black shadow-2xl" />
+                  <MainButton
+                  onClick={()=> navigate("/signup")}
+                  text={"CREATE ACCOUNT"} className="px-12 py-5 text-xl font-black shadow-2xl" />
                 </div>
               </div>
             </Container>

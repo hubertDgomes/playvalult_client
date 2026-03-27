@@ -42,7 +42,6 @@ const Navbar = () => {
               <Link to={"/"}>Home</Link>
               <Link to={"/store"}>Store</Link>
               <Link to={"/library"}>Library</Link>
-              <Link to={"/wishlist"}>Wishlist</Link>
             </div>
             <div className="flex gap-x-4 md:gap-x-8 items-center justify-between">
               {user ? (
@@ -132,13 +131,7 @@ const Navbar = () => {
           >
             Library
           </Link>
-          <Link
-            to={"/wishlist"}
-            className="hover:text-[#19e5f0] transition-colors"
-            onClick={() => setMenuOpen(false)}
-          >
-            Wishlist
-          </Link>
+      
           <div className="flex flex-col gap-y-4 mt-8 sm:hidden w-full">
             {user ? (
               <>

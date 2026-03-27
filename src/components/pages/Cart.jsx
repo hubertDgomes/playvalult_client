@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "../Container";
 import Images from "../Images";
 import cart from "../../assets/cart.png";
@@ -60,7 +61,7 @@ const Cart = () => {
       .get(`${import.meta.env.VITE_API_LINK}/api/showcart`, {
         withCredentials: true,
       })
-      .then((res) => setGames(res.data.cartGames));
+      .then((res) => setGames(res.data.cartGames || []));
   }, []);
 
   const handleRemove = (id) => {
@@ -74,8 +75,19 @@ const Cart = () => {
       });
   };
 
-  console.log(games);
+  let total = 0;
+  for (let i = 0; i < games.length; i++) {
+    total += parseFloat(games[i].games.price || 0);
+  }
 
+  const navigate = useNavigate();
+
+  const handlePurchase = () => {
+    navigate("/checkout", {
+      state: { total: (total + 0.2), games },
+    });
+  };
+  
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white pt-32 pb-20 font-Jakarta relative overflow-hidden">
       {/* Background Decorative Elements */}
@@ -134,13 +146,13 @@ const Cart = () => {
                   <p className="font-bold text-sm tracking-wider text-gray-500 uppercase">
                     Subtotal
                   </p>
-                  <p className="font-black text-lg">CALCULATING...</p>
+                  <p className="font-black text-lg">${total}</p>
                 </div>
                 <div className="flex justify-between items-center group/row">
                   <p className="font-bold text-sm tracking-wider text-gray-500 uppercase">
                     Estimated Tax
                   </p>
-                  <p className="font-black text-lg">CALCULATING...</p>
+                  <p className="font-black text-lg">$0.2</p>
                 </div>
               </div>
 
@@ -148,10 +160,11 @@ const Cart = () => {
                 <p className="text-[#00F2FF] font-black text-lg uppercase tracking-[2px]">
                   Total Estimate
                 </p>
-                <p className="font-black text-4xl text-white">ALL TOTAL</p>
+                <p className="font-black text-4xl text-white">${total + 0.2}</p>
               </div>
 
               <MainButton
+                onClick={handlePurchase}
                 className={
                   "w-full py-5 text-xl shadow-[0_10px_30px_rgba(25,229,240,0.2)] hover:shadow-[0_10px_40px_rgba(25,229,240,0.4)] transition-all transform active:scale-[0.98] mt-4 uppercase font-black"
                 }
